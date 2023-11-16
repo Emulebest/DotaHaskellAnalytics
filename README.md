@@ -5,6 +5,9 @@
 This project is a Haskell implementation of the logic to compare the networth between the richest player (a.k.a first position or carry) and the poorest player (a.k.a position five or hard support) across the series of The International tournaments in Dota 2. 
 Final result is the Bar Chart representation in a generated file 'chart.svg'.
 
+Example of the chart:
+[!alt text] (https://github.com/Emulebest/DotaHaskellAnalytics/blob/master/sample_chart.svg?raw=True)
+
 ## Data
 
 Data is taken from [OpenDota](https://www.opendota.com/) API.
