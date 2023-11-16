@@ -6,7 +6,7 @@ This project is a Haskell implementation of the logic to compare the networth be
 Final result is the Bar Chart representation in a generated file 'chart.svg'.
 
 Example of the chart:
-![alt text] (https://github.com/Emulebest/DotaHaskellAnalytics/blob/master/sample_chart.svg?raw=True)
+![alt text](https://github.com/Emulebest/DotaHaskellAnalytics/blob/master/sample_chart.svg?raw=True)
 
 ## Data
 
