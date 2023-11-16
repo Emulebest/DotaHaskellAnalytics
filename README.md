@@ -54,3 +54,7 @@ There are some things that I would like to improve in the future:
 - [ ] Improve compile times for Haskell in Docker (not sure if it is possible, but it takes a lot of time to compile the project in Docker)
 - [ ] Since there is a delay between requests, it would be possible to write records to database between API invocations
 - [ ] Improve the readability of the chart
+
+## License
+
+Distributed under the MIT license. See LICENSE for more information.
