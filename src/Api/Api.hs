@@ -20,13 +20,14 @@ newtype (TimeUnit t) => QueryOpts t = QueryOpts { rateLimit :: t }
 queryOptsMillis :: Int -> QueryOpts Millisecond
 queryOptsMillis millisDelayPerInvocation = QueryOpts $ fromIntegral millisDelayPerInvocation
 
+-- | This variable controls the list of tournaments that will be queried. First value is the tournament ID, second value is the tournament name.
 tournamentList :: Map.Map String String
--- tournamentList = Map.fromList [("2733", "The Internation 2015"), ("600", "The International 2014"), ("4664", "The International 2016"), ("5401", "The International 2017")]
 tournamentList = Map.fromList [("5401", "The International 2017"), ("4664", "The International 2016")]
 
 queryTournament :: TimeUnit t => QueryOpts t -> String -> String -> IO Tournament
 queryTournament queryOpts tournamentId tournamentName = do
     matches <- getTournamentMatches tournamentId
+    -- | Rate limit the getMatchData function to specified queryOpts rate limit. OpenDota has a rate limit of 60 requests per minute for free accounts.
     rateLimitedFunction <- rateLimitInvocation (rateLimit queryOpts) getMatchData
     matchData <- mapConcurrently rateLimitedFunction matches
     let transformedMatch = map intermediateMatchToMatch matchData
@@ -38,7 +39,6 @@ intermediateMatchToMatch match = Match { matchId = S.match_id match, playerStats
 intermediatePlayerStatsToPlayerStats :: IntermediatePlayerStats -> PlayerStats
 intermediatePlayerStatsToPlayerStats stats = PlayerStats { M.isRadiant = S.isRadiant stats, netWorth = S.net_worth stats }
 
--- "/api/leagues/4664/matches"
 getTournamentMatches :: String -> IO [IntermediateMatch]
 getTournamentMatches id = runReq defaultHttpConfig $ do
   r <- req GET (https "api.opendota.com" /: "api" /: "leagues" /: T.pack id /: "matches" ) NoReqBody jsonResponse mempty
@@ -52,5 +52,5 @@ getMatchData match = runReq defaultHttpConfig $ do
 
 printMatchIds :: TimeUnit t => QueryOpts t -> String -> String -> IO ()
 printMatchIds queryOpts id name = do
-  quriedTournamentMatches <- queryTournament queryOpts id name
-  print quriedTournamentMatches
+  queriedTournamentMatches <- queryTournament queryOpts id name
+  print queriedTournamentMatches

@@ -8,3 +8,13 @@ services:
     volumes:
         - ./data/db:/data/db
         - ./data/configdb:/data/configdb
+
+  haskell:
+    image: haskell:9.4.7
+    restart: always
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: bash -c "stack install && stack build && stack exec Main-exe"
+    depends_on:
+      - mongo

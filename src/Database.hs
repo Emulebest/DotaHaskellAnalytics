@@ -9,10 +9,16 @@ import Data.Tournament
 import Data.Match
 import Control.Monad.Reader
 import qualified Data.Text as T
+import System.Environment (lookupEnv)
 
 
-defaultConnection :: String
-defaultConnection = "localhost:27017"
+-- | Controls the host port connection string for Mongo
+defaultConnection :: IO String
+defaultConnection = do
+  connectionString <- lookupEnv "MONGO_CONNECTION"
+  case connectionString of
+    Just conn -> return conn
+    Nothing -> return "localhost:27017"
 
 class DBProps a where
   pipe :: a -> Pipe
@@ -27,9 +33,10 @@ instance DBProps DatabaseProperties where
 data DatabaseProperties = DatabaseProperties { propsPipe :: Pipe, propsDbName :: String, propsCollName :: String }
 
 getDb :: IO Pipe
-getDb = connect $ readHostPort defaultConnection
+getDb = do
+  connectionString <- defaultConnection
+  connect $ readHostPort connectionString
 
--- | Insert a document into the database
 insertMatch :: (DBProps t, MonadReader t m, MonadIO m) => Tournament -> Match -> m ()
 insertMatch t match = do
   env <- ask

@@ -74,16 +74,16 @@ executables:
     dependencies:
     - DotaHaskellAnalytics
 
-    Main-exe:
-      main:                Main.hs
-      source-dirs:         run
-      
-      ghc-options:
-      - -threaded
-      - -rtsopts
-      - -with-rtsopts=-N
-      dependencies:
-      - DotaHaskellAnalytics
+  Main-exe:
+    main:                Main.hs
+    source-dirs:         run
+
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - DotaHaskellAnalytics
 
 tests:
   DotaHaskellAnalytics-test:

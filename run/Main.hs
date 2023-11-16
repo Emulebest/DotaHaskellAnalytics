@@ -8,6 +8,7 @@ import Database.MongoDB
 import Data.Map (foldrWithKey)
 import Data.Tournament
 import Control.Monad.Reader
+import Chart.Bar
 
 main :: IO ()
 main = do
